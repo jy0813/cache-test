@@ -1,26 +1,22 @@
 import Footer from "@/component/Footer";
 import Header from "@/component/Header";
-import TanstackQueryProvider from "@/component/TanstackQueryProvider";
 import type { Metadata } from "next";
 import "@/app/global.css";
 import BannerWrap from "@/component/BannerWrap";
 
-
-
-
-const SUPPORTED_LANGS = ['kr', 'us']; 
+const SUPPORTED_LANGS = ["kr", "us"];
 
 interface LangMap {
   [key: string]: string;
 }
 
 const LANG_MAP: LangMap = {
-  kr: 'ko',
-  us: 'en'
+  kr: "ko",
+  us: "en",
 };
 
 export function generateStaticParams() {
-  return SUPPORTED_LANGS.map(country => ({country}));
+  return SUPPORTED_LANGS.map((country) => ({ country }));
 }
 
 export const metadata: Metadata = {
@@ -35,20 +31,16 @@ export default function RootLayout({
   children: React.ReactNode;
   params: { country: string };
 }) {
-
-
   return (
     <html lang={LANG_MAP[params.country]}>
       <body>
-        <TanstackQueryProvider>
-         <div className='container'>
-          <BannerWrap params={params}/>
-          <Header params={params}/>
+        <div className="container">
+          <BannerWrap params={params} />
+          <Header params={params} />
           <main>{children}</main>
-          <Footer/>
-         </div>
-        </TanstackQueryProvider>
-        </body>
+          <Footer />
+        </div>
+      </body>
     </html>
   );
 }

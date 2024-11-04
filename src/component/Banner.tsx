@@ -1,21 +1,16 @@
-'use client'
+"use client";
 
-import styles from '@/component/Banner.module.css'
-import { Country } from '@/fetch/getMenu';
-import { getTopBanners } from '@/fetch/getTopBanner';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import styles from "@/component/Banner.module.css";
 
-export const Banner = () => {
+import { TopBannersResponse } from "@/fetch/getTopBanner";
 
+import Image from "next/image";
 
-  const param = useParams();
-  
-  const {country} = param;
+type Props = {
+  data: TopBannersResponse;
+};
 
-  const { data } = useSuspenseQuery({queryKey: ['top-banners'], queryFn: getTopBanners[country as Country]});
-
+export const Banner = ({ data }: Props) => {
   return (
     <aside className={styles.banner}>
       {data?.map((banner: any) => (
@@ -25,7 +20,7 @@ export const Banner = () => {
         </>
       ))}
     </aside>
-  )
-}
+  );
+};
 
 export default Banner;
