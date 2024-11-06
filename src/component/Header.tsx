@@ -1,32 +1,20 @@
-import styles from '@/component/Header.module.css'
-import { Menu } from '@/component/Menu';
-import { getQueryClient } from '@/component/TanstackQueryOption';
-import { Country, getMenu } from '@/fetch/getMenu';
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import Link from 'next/link';
+import styles from "@/component/Header.module.css";
+import { Menu } from "@/component/Menu";
+import { Country, getMenu } from "@/fetch/getMenu";
+import Link from "next/link";
 
-export const Header = async ({params}: {
-  params: { country: string };
-}) => {
-
-  const {country} = params;
-  const queryClient = getQueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: ['menu'],
-    queryFn: getMenu[country as Country],
-  });
+export const Header = async ({ params }: { params: { country: string } }) => {
+  const country = params.country as Country;
+  const data = await getMenu[country]();
 
   return (
     <header className={styles.header}>
-      <Link href={'/'} prefetch>
+      <Link href={"/"} prefetch>
         <h1>헤더</h1>
       </Link>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Menu/>
-      </HydrationBoundary>
+      <Menu data={data} country={country} />
     </header>
-  )
-}
+  );
+};
 
 export default Header;
